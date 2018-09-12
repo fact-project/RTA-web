@@ -1,0 +1,69 @@
+
+body {
+    background-color: #D3D3D3;
+    font-family: Impact, Charcoal, sans-serif;
+}
+
+#header {
+    margin: auto;
+    width: 975px;
+}
+
+#live {
+    padding: 10px;
+    width: 100%;
+    height: 150px;
+    color: white;
+    background-color: green;
+    border: black;
+}
+
+#logo {
+    width: 600px;
+    height: 175px;
+}
+
+#main {
+    margin: auto;
+    width: 1000px;
+    border: 5px solid green;
+    background-color: #ffffff;
+}
+
+#selection {
+
+    margin: auto;
+    color: white;
+    background-color: green;
+    border: 5px solid green;
+    
+}
+ /* The navigation bar */
+.left {
+    position: fixed; /* Set the navbar to fixed position */
+    bottom: -5px;
+    left: 0; /* Position the navbar at the bottom of the page */
+}
+
+.right {
+    position: fixed; /* Set the navbar to fixed position */
+    bottom: -10px;
+    right: 0; /* Position the navbar at the bottom of the page */
+}
+
+#theta2 {
+    width: 950px;
+    margin: auto;
+}
+
+#accessRate {
+    width: 950px;
+    margin: auto;
+}
+
+#skymap {
+    width: 500px;
+    margin: auto;
+}
+
+
