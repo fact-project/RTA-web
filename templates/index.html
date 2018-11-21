@@ -54,44 +54,68 @@
 <div id="main">
     <div id="selection">
         <center>
-        <form name="select" onsubmit="return getData()">
-            <b>Select Source:</b>
-            <select name="source">
-                <option value="Crab" selected>Crab</option>
-                <option value="MRK 501">MRK 501</option>
-                <option value="MRK 421">MRK 421</option>
-                <option value="MRK 421">MRK 421</option>
-                <option value="1ES 2344+51.4">1ES 2344+51.4</option>
-                <option value="PKS 2155-304">PKS 2155-304</option>
-                <option value="H 1426+428">H 1426+428</option>
-                <option value="1ES 1959+650">1ES 1959+650</option>
-                <option value="1ES 1218+304">1ES 1218+304</option>
-                <option value="IC 310">IC 310</option>
-                <option value="1H0323+342">1H0323+342</option>
-                <option value="RGB J0521.8+2112">RGB J0521.8+2112</option>
-                <option value="PKS 0736+01">PKS 0736+01</option>
-                <option value="V404 Cyg">V404 Cyg</option>
-                <option value="AMON20160218">AMON20160218</option>
-                <option value="HESE20160427">HESE20160427</option>
-                <option value="PKS 1749+096">PKS 1749+096</option>
-                <option value="AMON20160731">AMON20160731</option>
-                <option value="AMON20161103">AMON20161103</option>
-                <option value="NGC1275">NGC1275</option>
-                <option value="TXS 0506+056">TXS 0506+056</option>
-                <option value="TeV J2032+4130">TeV J2032+4130</option>
-                <option value="IceCubeEHE20171106">IceCubeEHE20171106</option>
-                <option value="IceCubeEHE20171106b">IceCubeEHE20171106b</option>
-                <option value="M87">M87</option>
-            </select> 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <b>Select Date:</b> 
-            &nbsp;&nbsp;
-            From  
-            <input type="text" name="from" value="20131101" maxlength="8" size="8"> 
-            to 
-            <input type="text" name="to" value="20131106" maxlength="8" size="8"> 
-            <input type="submit" value="Submit">
-            </form>
+        <form  action="" method="post" role="form">
+    {{ form.csrf }}
+    <div class="form-group">
+      <label for="select_source">Source: </label>
+        <select name="select_source">
+            <option value="Live" selected>Go Live</option>
+            <option value="Crab">Crab</option>
+            <option value="Mrk 501">MRK 501</option>
+            <option value="Mrk 421">MRK 421</option>
+            <option value="1ES 2344+51.4">1ES 2344+51.4</option>
+            <option value="PKS 2155-304">PKS 2155-304</option>
+            <option value="H 1426+428">H 1426+428</option>
+            <option value="1ES 1959+650">1ES 1959+650</option>
+            <option value="1ES 1218+304">1ES 1218+304</option>
+            <option value="IC 310">IC 310</option>
+            <option value="1H0323+342">1H0323+342</option>
+            <option value="RGB J0521.8+2112">RGB J0521.8+2112</option>
+            <option value="PKS 0736+01">PKS 0736+01</option>
+            <option value="V404 Cyg">V404 Cyg</option>
+            <option value="AMON20160218">AMON20160218</option>
+            <option value="HESE20160427">HESE20160427</option>
+            <option value="PKS 1749+096">PKS 1749+096</option>
+            <option value="AMON20160731">AMON20160731</option>
+            <option value="AMON20161103">AMON20161103</option>
+            <option value="NGC1275">NGC1275</option>
+            <option value="TXS 0506+056">TXS 0506+056</option>
+            <option value="TeV J2032+4130">TeV J2032+4130</option>
+            <option value="IceCubeEHE20171106">IceCubeEHE20171106</option>
+            <option value="IceCubeEHE20171106b">IceCubeEHE20171106b</option>
+            <option value="M87">M87</option>
+        </select> 
+      &nbsp;&nbsp;&nbsp;
+      <label for="select_from">From:</label>
+      <input type="date" class="form-control" id="select_from" name="select_from">
+      &nbsp;&nbsp;&nbsp;
+      <label for="select_to">To:</label>
+      <input type="date" class="form-control" id="select_to" name="select_to">
+    &nbsp;&nbsp;&nbsp;
+        <button type="submit" class="btn btn-success">Select:</button>
+    </div>
+  </form>
+ 
+  <br>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+ 
+        {% for message in messages %}
+            {% if "Error" not in message[1]: %}
+                <div class="alert alert-info">
+                <strong> {{ message[1] }} </strong>
+                </div>
+            {% endif %}
+ 
+            {% if "Error" in message[1]: %}
+                <div class="alert alert-warning">
+                {{ message[1] }}
+                </div>
+            {% endif %}
+        {% endfor %}
+            {% endif %}
+        {% endwith %}
+ 
         </center>
     </div>
     <div id="theta2"></div>
