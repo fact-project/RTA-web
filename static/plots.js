@@ -1,7 +1,7 @@
 "use strict;"
 
 const URL = "events";
-const URL_excess = "excess";
+const URL_run = "run";
 const URL_selected = "selected";
 const off_keys = ["theta_deg_off_1", "theta_deg_off_2", "theta_deg_off_3", "theta_deg_off_5"]
 let skymapDiv = document.getElementById('skymap');
@@ -11,9 +11,6 @@ let excessRateDiv = document.getElementById('excessRate');
 let lastTimestamp = null;
 var lastTimefrom = null;
 
-let formsource = null;
-let formfrom = null;
-let formto = null;
 
 let skymap = {
   data: [
@@ -23,7 +20,7 @@ let skymap = {
     type: 'histogram2d', 
     nbinsx: 50, 
     nbinsy: 50,
-    colorscale: 'Greens',
+    colorscale: 'Blackbody',
     }
   ],
   layout: {
@@ -56,7 +53,7 @@ let excessRate = {
       size: 30,
       color: '#000000'
     },
-    yaxis: {title: 'Count per Hour', range:[-10, 150],},
+    yaxis: {title: 'Excess', range:[-20,370],}, //range:[-10, 150],
     xaxis: {title: 'Date',},
 
   }
@@ -78,7 +75,7 @@ let theta2 = {
       x: [],
       y: [],
       name: 'Off region',
-      opacity: 0.4,
+      opacity:0.6,
       marker: {color: 'gray'},
       type: 'histogram',
       histfunc: "sum",
@@ -92,7 +89,7 @@ let theta2 = {
       size: 30,
       color: '#000000'
     },
-    xaxis: {title: 'Theta² in deg²', }, //range: [0, 0.003]
+    xaxis: {title: 'Theta² in deg²', }, 
     yaxis: {title: 'Count N'},
     barmode: "overlay",
     legend: {
@@ -117,16 +114,9 @@ let theta2 = {
 }
 
 function getData() {
-    formsource = document.forms["select"]["source"].value;
-    formfrom = document.forms["select"]["from"].value;
-    formto = document.forms["select"]["to"].value;
-    if (formsource != null) {
-        $.getJSON(URL_excess, {timestamp: lastTimestamp, lasttimefrom: lastTimefrom, formsource: formsource, formfrom: formfrom, formto: formto}, updateExcess);  
-        $.getJSON(URL, {timestamp: lastTimestamp, lasttimefrom: lastTimefrom, formsource: formsource, formfrom: formfrom, formto: formto}, updatePlots);
-        }
-    else{
-        ///$.getJSON(URL_selected, {timestamp: lastTimestamp, lasttimefrom: lastTimefrom, formsource: formsource, formfrom: formfrom, formto: formto}, updateSelected);
-    }
+    $.getJSON(URL_run, {timestamp: lastTimestamp, lasttimefrom: lastTimefrom}, updateExcess);  
+    $.getJSON(URL, {timestamp: lastTimestamp, lasttimefrom: lastTimefrom}, updatePlots);
+        
     var currentdate = new Date();  
     var months = (currentdate.getMonth()+1);
     var days = currentdate.getDate();
@@ -209,6 +199,7 @@ function updatePlots(data) {
   console.log("Got Data");
 }
 
+
 /*
 function updateSelected(data) {
   let new_ra = data['ra_prediction'] * 15;
@@ -237,13 +228,30 @@ function updateSelected(data) {
 */
 
 
+var layouttheta = {
+  autosize: false,
+  width: 950,
+  height: 500,
+}
+
+var layoutexcess = {
+  autosize: false,
+  width: 950,
+  height: 500,
+}
+var layoutskymap = {
+  autosize: false,
+  width: 500,
+  height: 500,
+}
+
 function setupPlots() {
-  Plotly.newPlot(theta2Div, theta2.data);
-  Plotly.newPlot(excessRateDiv, excessRate.data);
-  Plotly.newPlot(skymapDiv, skymap.data);
+  Plotly.newPlot(theta2Div, theta2.data, layouttheta);
+  Plotly.newPlot(excessRateDiv, excessRate.data, layoutexcess);
+  Plotly.newPlot(skymapDiv, skymap.data, layoutskymap);
 }
 
 setupPlots();
 getData();
 
-setInterval(getData, 1000);
+setInterval(getData, 5000);
